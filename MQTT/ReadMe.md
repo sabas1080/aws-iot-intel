@@ -15,7 +15,7 @@ key privateKey.pem -h g.us-east-1.pb.iot.amazonaws.com -p 8883
 **NOTE:** replace <topic> and <client_id> with the topic you wish to subscribe to and the id you wish to have. 
 Use mosquitto to publish to a topic: 
 ``` bash
-$ mosquitto_pub --cafile crootCA.pem --cert certs/cert.pem --
+$ mosquitto_pub --cafile rootCA.pem --cert certs/cert.pem --
 key privateKey.pem -h g.us-east-1.pb.iot.amazonaws.com -p 8883
 -q 1 -d -t <topic> -i <client_id> -m <"message">
 ``` 
