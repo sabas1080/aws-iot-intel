@@ -42,29 +42,23 @@ $ ./configure
 $ make
 $ make install
 $ cd ~
+```
+
+To make sure everything has installed correctly, run the iot help file:
+``` bash
+$ aws iot help
 ``` 
+
 **Get AWS credentials:**
 
 Aws Cli is now installed. Make new user and get credentials from the aws console following instructions at: http://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-set-up.html#cli-signup. Once you have an access ID and key you can configure aws and enter the ID and key with:
 ``` bash 
 aws configure 
-``` 
+```
 **NOTE:** for default region you must enter us-east-1 in order to be able to configure AWS for IoT. The default format can be left as json. 
 
 In order to get permission to download the AWS IoT tools, attach the administrator account policy to the user. To do this go to the "Users Panel" in the IAM console, select the user you created, attach policy, and select administrator account.
 
-**Download Amazon IoT SDK:**
-``` bash
-$ aws s3 cp s3://aws-iot-private-beta/aws-iot-cli.zip aws-iot-cli.zip
-$ unzip aws-iot-cli.zip
-$ mkdir .aws/models
-$ cp –r ./models/iot .aws/models
-$ cp –r ./models/iot-data .aws/models
-``` 
-To make sure everything has installed correctly run the iot help file:
-``` bash
-$ aws iot help
-``` 
 **Generate Certificates:**
 
 First create a folder to store your certificates in:
