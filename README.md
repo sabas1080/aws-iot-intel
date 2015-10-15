@@ -2,6 +2,9 @@
 
 ![Intel Edison + AWS IoT](https://cloud.githubusercontent.com/assets/2881361/10375573/439555c4-6dc7-11e5-8eb0-75b9f1506f30.png)
 
+### Prepare your Intel Edison: 
+Get started with your Intel Edison by updating to the latest firmware and setting up a serial terminal. You can find instructions here: ![Get started with Intel Edison technology](https://software.intel.com/en-us/iot/library/edison-getting-started)
+
 ### Install AWS CLI: 
 
 **Install pip (Python package manager):**
