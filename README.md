@@ -2,20 +2,20 @@
 
 ![Intel Edison + AWS IoT](https://cloud.githubusercontent.com/assets/2881361/10375573/439555c4-6dc7-11e5-8eb0-75b9f1506f30.png)
 
-### Prepare your Intel Edison: 
+### Prepare your Intel Edison:
 Get started with your Intel Edison by updating to the latest firmware and setting up a serial terminal. You can find instructions here: [Get started with Intel Edison technology](https://software.intel.com/en-us/iot/library/edison-getting-started)
 
-### Install AWS CLI: 
+### Install AWS CLI:
 
 **Install pip (Python package manager):**
 ``` bash
 $ curl https://bootstrap.pypa.io/ez_setup.py -o - | python
 $ easy_install pip
-``` 
+```
 **Install AWS CLI with pip:**
 ``` bash
 $ pip install awscli
-``` 
+```
 **Install dependencies:**
 _In order to view help files ("aws iot help"), install Groff and a non-BusyBox version of less._
 
@@ -29,12 +29,12 @@ $ make
 $ make install
 $ export PATH=$PATH:/usr/local/bin/
 $ cd ~
-``` 
+```
 **Less:**
 _First rename the old version of less._
 ``` bash
 $ mv /usr/bin/less /usr/bin/less-OLD
-``` 
+```
 Then install the new version of less:
 ``` bash
 $ wget http://www.greenwoodsoftware.com/less/less-458.zip
@@ -50,15 +50,15 @@ $ cd ~
 To make sure everything has installed correctly, run the iot help file:
 ``` bash
 $ aws iot help
-``` 
+```
 
 **Get AWS credentials:**
 
 Aws Cli is now installed. Make new user and get credentials from the aws console following instructions at: http://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-set-up.html#cli-signup. Once you have an access ID and key you can configure aws and enter the ID and key with:
-``` bash 
-aws configure 
+``` bash
+aws configure
 ```
-**NOTE:** for default region you must enter us-east-1 in order to be able to configure AWS for IoT. The default format can be left as json. 
+**NOTE:** for default region you must enter us-east-1 in order to be able to configure AWS for IoT. The default format can be left as json.
 
 In order to get permission to download the AWS IoT tools, attach the administrator account policy to the user. To do this go to the "Users Panel" in the IAM console, select the user you created, attach policy, and select administrator account.
 
@@ -75,20 +75,20 @@ Generate a private key with open ssl:
 ``` bash
 $ openssl genrsa -out privateKey.pem 2048
 $ openssl req -new -key privateKey.pem -out cert.csr
-``` 
+```
 * Fill out the fields with your info.
-* Run the following to activate the certificate: 
+* Run the following to activate the certificate:
 ``` bash
-$ aws iot --endpoint-url https://i.us-east-1.pb.iot.amazonaws.com create-certificate --certificate-signing-request file://cert.csr --set-as-active > certOutput.txt
-``` 
+$ aws iot --endpoint-url https://i.internal.iot.us-east-1.amazonaws.com create-certificate-from-csr  --certificate-signing-request file://cert.csr --set-as-active > certOutput.txt
+```
 Run the following to save the certificate into a cert.pem file:
 ``` bash
-$ aws iot --endpoint-url https://i.us-east-1.pb.iot.amazonaws.com describe-certificate --certificate-id <certificate ID> --output text --query certificateDescription.certificatePem  > cert.pem
-``` 
-**NOTE:** Replace <certificate ID> with the ID stored in the "certificateId" field in certOutput.txt. To view the file enter: 
+$ aws iot --endpoint-url https://i.internal.iot.us-east-1.amazonaws.com describe-certificate --certificate-id <certificate ID> --output text --query certificateDescription.certificatePem  > cert.pem
+```
+**NOTE:** Replace <certificate ID> with the ID stored in the "certificateId" field in certOutput.txt. To view the file enter:
 ``` bash
 $ more certOutput.txt.
-``` 
+```
 
 Create a Json policy document for AWS IoT SDK:
 Copy the following text (ctrl-c):
@@ -107,32 +107,17 @@ Copy the following text (ctrl-c):
         }
     ]
 }
-``` 
+```
 * Enter "$ vi policy.doc"  hit "a" and right-click to paste the text.
 * Hit escape and type in ":wq" to save and quit.  
 
 ** Attach the policy to your certificate **
 First enter:
 ``` bash
-$ aws iot --endpoint-url https://i.us-east-1.pb.iot.amazonaws.com create-policy --policy-name PubSubToAnyTopic --policy-document file://policy.doc
-``` 
+$ aws iot --endpoint-url https://i.internal.iot.us-east-1.amazonaws.com create-policy --policy-name PubSubToAnyTopic --policy-document file://policy.doc
+```
 Then attach the policy to the certificate with:
 ``` bash
-$ aws iot --endpoint-url https://i.us-east-1.pb.iot.amazonaws.com attach-principal-policy --principal-arn <principal arn> --policy-name "PubSubToAnyTopic" 
-``` 
-**NOTE:** replace <principal arn> with the  value stored in "certifcateArn" in the outputCert.txt file. 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
- 
+$ aws iot --endpoint-url https://i.internal.iot.us-east-1.amazonaws.com attach-principal-policy --principal-arn <principal arn> --policy-name "PubSubToAnyTopic"  
+```
+**NOTE:** replace <principal arn> with the  value stored in "certifcateArn" in the outputCert.txt file.
